@@ -1,6 +1,9 @@
 name: Build and push to TdA
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -17,12 +20,12 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./
-          tags: tda-flask:latest
-          outputs: type=docker,dest=/tmp/tda-flask.tar
+          tags: tda-app:latest
+          outputs: type=docker,dest=/tmp/tda-app.tar
 
       - name: Upload to TdA
         uses: Tour-de-App/upload-app@tda-24
         with:
           team_secret: ${{ secrets.TEAM_SECRET }}
-          image_name: tda-flask
-          image_path: /tmp/tda-flask.tar
+          image_name: tda-app
+          image_path: /tmp/tda-app.tar
